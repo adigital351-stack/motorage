@@ -1,11 +1,10 @@
 #!/bin/bash
 echo " Building Project... "
 
-# تثبيت الحزم بأمان وتحديث الـ pip
-python3 -m pip install --upgrade pip
+# التثبيت مباشرة عبر uv مع علم التوافقية والأمان الكامل
 uv pip install -r requirements.txt --system --break-system-packages
 
-# تجميع الملفات الثابتة
+# تشغيل أمر الـ collectstatic المباشر
 python3 manage.py collectstatic --noinput --clear
 
 echo " Build Finished! "
