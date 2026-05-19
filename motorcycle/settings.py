@@ -12,7 +12,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = 'django-insecure-6j)fjkwb0nbgol0e%kf%5e^z6qi8h(cpmr4^&_vtg3rg3pi_m='
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-6j)fjkwb0nbgol0e%kf%5e^z6qi8h(cpmr4^&_vtg3rg3pi_m=')
 
 DEBUG = False
 
@@ -98,22 +98,20 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# تصحيح: إضافة المائلة في البداية ضرورية جداً لسيرفرات Vercel
 STATIC_URL = '/static/'
 
-# المسار الذي ينتظره Vercel لرفع الملفات الثابتة بنجاح
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
+# تعديل ناضي: تم تغيير المسار ليتوافق مع الإعدادات المباشرة لـ Vercel
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static_local') if os.path.exists(os.path.join(BASE_DIR, 'static_local')) else os.path.join(BASE_DIR, 'static')
 ]
 
-# تصحيح: استخدام الـ Storage المرن لمنع فشل الـ Build في حال وجود ملفات مفقودة في التصميم
+# استخدام الـ Storage المرن لمنع فشل الـ Build
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
